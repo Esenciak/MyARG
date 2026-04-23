@@ -1,0 +1,34 @@
+<!DOCKTYPE html>
+<html>
+<head>
+    <title>Strona ARG</title>
+    <style>
+        body {
+            background-color: black;
+            color: #00ff00;
+            text-align: center;
+            margin-top: 20%;
+        }
+    
+    </style>
+</head>
+<body>
+    <h1>Wprowadz kod dostepu</h1>
+    <input type="text" id="haslo"/>
+    <button onclick="sprawdz()">ZATWIERDZ</button>
+
+
+    <script>
+        function sprawdz() {
+            let wpisaneHaslo = document.getElementById("haslo").value;
+
+            if (wpisaneHaslo === "4n0m4li4") {
+                alert("Dostep przyznany. Projekt WETERAN zainicjowany.");
+            } else {
+                alert("Nieprawidlowy kod dostepu.");
+            }
+        }
+    </script>
+</body>
+
+</html>
