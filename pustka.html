@@ -5,7 +5,6 @@
     <title>Gdzie ja jestem?</title>
     <style>
         body {
-            /* Przyciemniona, brudna tapeta */
             background-color: #3a382c;
             background-image: repeating-linear-gradient(45deg, #2b2a21 25%, transparent 25%, transparent 75%, #2b2a21 75%, #2b2a21), repeating-linear-gradient(45deg, #2b2a21 25%, #3a382c 25%, #3a382c 75%, #2b2a21 75%, #2b2a21);
             background-position: 0 0, 10px 10px;
@@ -17,7 +16,6 @@
             cursor: crosshair;
         }
 
-        /* MROK - teraz jest gęstszy i ma mniejszy promień latarki (80px) */
         .mrok {
             position: absolute;
             top: 0;
@@ -48,7 +46,6 @@
             animation: drzenie 0.1s infinite;
         }
 
-        /* CZERWONY EKRAN KONCOWY (domyślnie ukryty) */
         #koniec {
             position: fixed;
             top: 0;
@@ -62,22 +59,22 @@
             justify-content: center;
             align-items: center;
             z-index: 100;
-            opacity: 0; /* Całkowicie niewidoczny */
-            pointer-events: none; /* Nie można go kliknąć */
-            transition: opacity 0.1s; /* Błyskawiczne pojawienie się */
+            opacity: 0; 
+            pointer-events: none; 
+            transition: opacity 0.1s; 
         }
 
-            /* Klasa dodawana przez JS po upływie czasu */
+           
             #koniec.aktywny {
                 opacity: 1;
                 pointer-events: all;
-                cursor: pointer; /* Zmienia kursor na rączkę */
+                cursor: pointer; 
             }
 
             #koniec h1 {
                 font-size: 80px;
                 margin: 0;
-                animation: drzenie 0.05s infinite; /* Bardzo agresywne drżenie */
+                animation: drzenie 0.05s infinite; 
             }
 
         @keyframes drzenie {
@@ -117,13 +114,10 @@
             mrok.style.setProperty('--y', e.clientY + 'px');
         });
 
-        // NAUKA: setTimeout to odliczanie. Odpala kod w środku po upływie X milisekund.
-        // Tutaj 12000 ms = 12 sekund.
+
         setTimeout(() => {
-            // Dodajemy klasę "aktywny" do czerwonego ekranu
             document.getElementById('koniec').classList.add('aktywny');
 
-            // Wyłączamy latarkę, żeby nic nie prześwitywało
             mrok.style.display = 'none';
         }, 12000);
 
