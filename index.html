@@ -106,8 +106,8 @@
     <script>
         function sprawdz() {
             let wpisaneHaslo = document.getElementById("haslo").value.toLowerCase();
-
-            if (wpisaneHaslo === "novotel") {
+            
+            if (btoa(wpisaneHaslo) === "bm92b3RlbA==") {
                 alert("Dostep przyznany. Projekt WETERAN zainicjowany.");
                 window.location.href = "sektor-b";
             } else {
