@@ -105,9 +105,9 @@
 
     <script>
         function sprawdz() {
-            let wpisaneHaslo = document.getElementById("haslo").value;
+            let wpisaneHaslo = document.getElementById("haslo").value.toLowerCase();
 
-            if (wpisaneHaslo === "Novomotel") {
+            if (wpisaneHaslo === "novomotel") {
                 alert("Dostep przyznany. Projekt WETERAN zainicjowany.");
                 window.location.href = "sektor-b.html";
             } else {

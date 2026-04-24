@@ -35,6 +35,8 @@
             padding: 20px;
             margin-top: 20px;
         }
+
+
     </style>
 </head>
 <body>
@@ -52,11 +54,13 @@
 
     <script>
     function sprawdzKomende() {
-            let wpisanaKomenda = document.getElementById("komenda").value.toLowerCase(); // toLowerCase zmienia duże litery na małe
+            let wpisanaKomenda = document.getElementById("komenda").value.toLowerCase();
 
             if (wpisanaKomenda === "nadpisz") {
                 alert("Protokół awaryjny uruchomiony. [Tu będzie kolejny etap!]");
-            } else {
+            }else if(wpisanaKomenda === "odzyskaj"){
+                alert("ukryty-plik-455");
+            }else {
                 alert("Nieznana komenda. Tracisz tlen.");
             }
         }</script>
