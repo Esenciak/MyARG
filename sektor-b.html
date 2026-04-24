@@ -1,0 +1,65 @@
+﻿<!DOCKTYPE html>
+<html lang="pl">
+<head>
+    <meta charset="UTF-8">
+    <title>Sektor B - BŁĄD SYSTEMU</title>
+    <style>
+        body {
+            background-color: #1a0000;
+            color: #ff3333;
+            font-family: 'Courier New', Courier, monospace;
+            padding: 50px;
+        }
+
+        .glitch {
+            font-size: 24px;
+            animation: miganie 2s infinite;
+        }
+        /* Prosta animacja w CSS */
+        @keyframes miganie {
+            0% {
+                opacity: 1;
+            }
+
+            50% {
+                opacity: 0.3;
+            }
+
+            100% {
+                opacity: 1;
+            }
+        }
+
+        .console {
+            border: 1px solid #ff3333;
+            padding: 20px;
+            margin-top: 20px;
+        }
+    </style>
+</head>
+<body>
+
+    <h1 class="glitch">OSTRZEŻENIE: ROZSZCZELNIENIE KADŁUBA</h1>
+
+    <div class="console">
+        <p>> Dziennik audio odzyskany...</p>
+        <p>> "Nie słuchaj ich. Ten skafander to pułapka. Znajdź konsolę nadpisania w..." [NAGRANIE URWANE]</p>
+        <br>
+        <p>Wprowadź komendę ratunkową:</p>
+        <input type="text" id="komenda" style="background: black; color: red; border: 1px solid red;">
+        <button onclick="sprawdzKomende()" style="background: red; color: black; border: none;">WYKONAJ</button>
+    </div>
+
+    <script>
+    function sprawdzKomende() {
+            let wpisanaKomenda = document.getElementById("komenda").value.toLowerCase(); // toLowerCase zmienia duże litery na małe
+
+            if (wpisanaKomenda === "nadpisz") {
+                alert("Protokół awaryjny uruchomiony. [Tu będzie kolejny etap!]");
+            } else {
+                alert("Nieznana komenda. Tracisz tlen.");
+            }
+        }</script>
+
+</body>
+</html>
