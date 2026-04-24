@@ -1,131 +1,144 @@
 ﻿<!DOCKTYPE html>
 <html>
-<head>
-    <title>Strona ARG</title>
+	<head>
+		<title>Strona ARG</title>
 
-    <style>
-        body {
-            background-color: black;
-            color: #00ff00;
-            text-align: center;
-            margin-top: 20%;
-        }
+		<style>
+			body {
+			    background-color: black;
+			    color: #00ff00;
+			    text-align: center;
+			    margin-top: 20%;
+			}
 
-        .sekret {
-            color: black;
-            margin-top: 12px;
-            user-select: all;
-        }
+			.sekret {
+			    color: black;
+			    margin-top: 12px;
+			    user-select: all;
+			}
 
-        .sekretblur {
-            color: #1c1919;
-            margin-top: 12px;
-            filter: blur(12px);
-            text-align: left;
-        }
+			.sekretblur {
+			    color: #1c1919;
+			    margin-top: 12px;
+			    filter: blur(12px);
+			    text-align: left;
+			}
 
-        #random-word {
-            position: absolute;
-            top: 50%;
-            left: 50%;
-            transform: translate(-50%, -50%);
-            z-index: -1;
-            margin: 0;
-            font-size: 7rem;
-            color: #3a33335b;
-            text-transform: uppercase;
-            letter-spacing: 10px;
-            white-space: nowrap;
-            pointer-events: none;
-            user-select: none;
-        }
+			#random-word {
+			    position: absolute;
+			    top: 50%;
+			    left: 50%;
+			    transform: translate(-50%, -50%);
+			    z-index: -1;
+			    margin: 0;
+			    font-size: 7rem;
+			    color: #3a33335b;
+			    text-transform: uppercase;
+			    letter-spacing: 10px;
+			    white-space: nowrap;
+			    pointer-events: none;
+			    user-select: none;
+			}
 
-        .hiddenHint {
-            opacity: 0;
-            transition: opacity 0.5s;
-            cursor: default;
-            position: absolute;
-            top: 50%;
-            left: 50%;
-            transform: translate(-50%, -50%);
-            width: 40%;
-            margin: 0;
-            background-color: black;
-            color: #00ff00;
-            font-weight: bold;
-        }
+			.hiddenHint {
+			    opacity: 0;
+			    transition: opacity 0.5s;
+			    cursor: default;
+			    position: absolute;
+			    top: 50%;
+			    left: 50%;
+			    transform: translate(-50%, -50%);
+			    width: 40%;
+			    margin: 0;
+			    background-color: black;
+			    color: #00ff00;
+			    font-weight: bold;
+			}
 
-            .hiddenHint:hover {
-                opacity: 1;
-            }
+			    .hiddenHint:hover {
+			        opacity: 1;
+			    }
 
-        .wrapper {
-            position: relative;
-            display: inline-block;
-        }
+			.wrapper {
+			    position: relative;
+			    display: inline-block;
+			}
 
-        .inputWrapper {
-            position: relative;
-            display: inline-block;
-            margin-top: 20px;
-        }
+			.inputWrapper {
+			    position: relative;
+			    display: inline-block;
+			    margin-top: 20px;
+			}
 
-        #haslo {
-            background: rgba(0, 0, 0, 0.8);
-            color: #00ff00;
-            border: 1px solid #00ff00;
-            padding: 10px;
-            position: relative; 
-            z-index: 1;
-        }
-
-    </style>
-</head>
-<body>
-    <div class="wrapper">
-        <h1>Wprowadz kod dostepu</h1>
-        <p class="hiddenHint">Znajdz nazwe</p>
-    </div>
+			#haslo {
+			    background: rgba(0, 0, 0, 0.8);
+			    color: #00ff00;
+			    border: 1px solid #00ff00;
+			    padding: 10px;
+			    position: relative;
+			    z-index: 1;
+			}
 
 
+			<script async src="https://www.googletagmanager.com/gtag/js?id=G-L14K2Y7ZGP"></script>
+			<script>
+			window.dataLayer = window.dataLayer || [];
+			function gtag(){dataLayer.push(arguments);}
+			gtag('js', new Date());
 
-    <p class="sekretblur">Tam gdzie ON zaginął</p>
+			gtag('config', 'G-L14K2Y7ZGP');
+			</script>
+		</style>
+	</head>
+	<body>
+		<div class="wrapper">
+			<h1>Wprowadz kod dostepu</h1>
+			<p class="hiddenHint">Znajdz nazwe</p>
+		</div>
 
+		<p class="sekretblur">Tam gdzie ON zaginął</p>
 
+		<div class="inputWrapper">
+			<input type="text" id="haslo" />
+			<button onclick="sprawdz()">ZATWIERDZ</button>
+			<h1 id="random-word">Slowo</h1>
+		</div>
 
+		<p class="sekret">
+			Koordynaty: 52.2293801233489 N, 21.01292082490763 E. <br />Tam gdzie sie
+			zaczelo
+		</p>
 
-    <div class="inputWrapper">
-        <input type="text" id="haslo" />
-        <button onclick="sprawdz()">ZATWIERDZ</button>
-        <h1 id="random-word">Slowo</h1>
+		<script>
+			function sprawdz() {
+				let wpisaneHaslo = document.getElementById("haslo").value.toLowerCase();
 
-    </div>
+				if (btoa(wpisaneHaslo) === "bm92b3RlbA==") {
+					alert("Dostep przyznany. Projekt WETERAN zainicjowany.");
+					window.location.href = "sektor-b";
+				} else {
+					alert("Nieprawidlowy kod dostepu.");
+				}
+			}
 
-    <p class="sekret">Koordynaty: 52.2293801233489 N, 21.01292082490763 E. <br>Tam gdzie sie zaczelo</p>
+			const words = [
+				"Hotel",
+				"Gdzie?",
+				"Morderstwo",
+				"Lobby",
+				"Zaginione",
+				"Nieznane",
+				"HASLO",
+				"Ukryte",
+			];
+			const wordElement = document.getElementById("random-word");
 
-    <script>
-        function sprawdz() {
-            let wpisaneHaslo = document.getElementById("haslo").value.toLowerCase();
-            
-            if (btoa(wpisaneHaslo) === "bm92b3RlbA==") {
-                alert("Dostep przyznany. Projekt WETERAN zainicjowany.");
-                window.location.href = "sektor-b";
-            } else {
-                alert("Nieprawidlowy kod dostepu.");
-            }
-        }
-
-        const words = ["Hotel", "Gdzie?", "Morderstwo", "Lobby", "Zaginione", "Nieznane", "HASLO", "Ukryte"];
-        const wordElement = document.getElementById("random-word");
-
-        function randTextOnScreen() {
-            const randomIndex = Math.floor(Math.random() * words.length);
-            wordElement.textContent = words[randomIndex];
-
-        }
-        setInterval(randTextOnScreen, 3000);
-        window.onload = randTextOnScreen;
-    </script>
-</body>
-
+			function randTextOnScreen() {
+				const randomIndex = Math.floor(Math.random() * words.length);
+				wordElement.textContent = words[randomIndex];
+			}
+			setInterval(randTextOnScreen, 3000);
+			window.onload = randTextOnScreen;
+		</script>
+	</body>
 </html>
