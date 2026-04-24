@@ -114,6 +114,7 @@
 				let wpisaneHaslo = document.getElementById("haslo").value.toLowerCase();
 
 				if (btoa(wpisaneHaslo) === "bm92b3RlbA==") {
+                    gtag('event', 'haslo_odgadniete', { 'event_category': 'gra' });
 					alert("Dostep przyznany. Projekt WETERAN zainicjowany.");
 					window.location.href = "sektor-b";
 				} else {
