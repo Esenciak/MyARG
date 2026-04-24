@@ -1,0 +1,20 @@
+{
+  "name": "my-arg",
+  "version": "1.0.0",
+  "description": "ARG (Alternate Reality Game) project with Vercel Analytics",
+  "private": true,
+  "scripts": {
+    "build": "echo 'Static HTML project - no build step required'",
+    "lint": "echo 'No linter configured for static HTML'"
+  },
+  "keywords": [
+    "arg",
+    "game",
+    "analytics"
+  ],
+  "author": "",
+  "license": "ISC",
+  "dependencies": {
+    "@vercel/analytics": "^2.0.1"
+  }
+}
