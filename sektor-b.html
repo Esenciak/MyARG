@@ -37,7 +37,14 @@
         }
 
 
+        .secret-hint {
+            color: #1a0000;
+            font-size: 12px;
+            margin-top: 50px;
+            user-select: all;
+        }
     </style>
+    
 </head>
 <body>
 
@@ -52,6 +59,8 @@
         <button onclick="sprawdzKomende()" style="background: red; color: black; border: none;">WYKONAJ</button>
     </div>
 
+    <p class="secret-hint">DEBUG: Ostatnia znana komenda ratunkowa to 'odzyskaj'. Zrzut pamięci wygenerowano pomyślnie.</p>
+
     <script>
     function sprawdzKomende() {
             let wpisanaKomenda = document.getElementById("komenda").value.toLowerCase();
@@ -59,11 +68,13 @@
             if (wpisanaKomenda === "nadpisz") {
                 alert("Protokół awaryjny uruchomiony. [Tu będzie kolejny etap!]");
             }else if(wpisanaKomenda === "odzyskaj"){
-                alert("ODZYSKANO: \nNAZWA: ukryty-plik-445 \nZAWARTOŚĆ: USZKODZONE");
+                alert("ODZYSKANO: \nNAZWA: sys-dump-445 \nZAWARTOŚĆ: USZKODZONE");
             }else {
                 alert("Nieznana komenda.");
             }
-        }</script>
+        }
+
+    </script>
 
 </body>
 </html>
