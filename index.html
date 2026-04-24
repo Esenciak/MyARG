@@ -1,95 +1,95 @@
 ﻿<!DOCKTYPE html>
 <html>
-	<head>
-		<title>Strona ARG</title>
+<head>
+	<title>Strona ARG</title>
 
-		<style>
-			body {
-			    background-color: black;
-			    color: #00ff00;
-			    text-align: center;
-			    margin-top: 20%;
+	<style>
+		body {
+			background-color: black;
+			color: #00ff00;
+			text-align: center;
+			margin-top: 20%;
+		}
+
+		.sekret {
+			color: black;
+			margin-top: 12px;
+			user-select: all;
+		}
+
+		.sekretblur {
+			color: #1c1919;
+			margin-top: 12px;
+			filter: blur(12px);
+			text-align: left;
+		}
+
+		#random-word {
+			position: absolute;
+			top: 50%;
+			left: 50%;
+			transform: translate(-50%, -50%);
+			z-index: -1;
+			margin: 0;
+			font-size: 7rem;
+			color: #3a33335b;
+			text-transform: uppercase;
+			letter-spacing: 10px;
+			white-space: nowrap;
+			pointer-events: none;
+			user-select: none;
+		}
+
+		.hiddenHint {
+			opacity: 0;
+			transition: opacity 0.5s;
+			cursor: default;
+			position: absolute;
+			top: 50%;
+			left: 50%;
+			transform: translate(-50%, -50%);
+			width: 40%;
+			margin: 0;
+			background-color: black;
+			color: #00ff00;
+			font-weight: bold;
+		}
+
+			.hiddenHint:hover {
+				opacity: 1;
 			}
 
-			.sekret {
-			    color: black;
-			    margin-top: 12px;
-			    user-select: all;
-			}
+		.wrapper {
+			position: relative;
+			display: inline-block;
+		}
 
-			.sekretblur {
-			    color: #1c1919;
-			    margin-top: 12px;
-			    filter: blur(12px);
-			    text-align: left;
-			}
+		.inputWrapper {
+			position: relative;
+			display: inline-block;
+			margin-top: 20px;
+		}
 
-			#random-word {
-			    position: absolute;
-			    top: 50%;
-			    left: 50%;
-			    transform: translate(-50%, -50%);
-			    z-index: -1;
-			    margin: 0;
-			    font-size: 7rem;
-			    color: #3a33335b;
-			    text-transform: uppercase;
-			    letter-spacing: 10px;
-			    white-space: nowrap;
-			    pointer-events: none;
-			    user-select: none;
-			}
+		#haslo {
+			background: rgba(0, 0, 0, 0.8);
+			color: #00ff00;
+			border: 1px solid #00ff00;
+			padding: 10px;
+			position: relative;
+			z-index: 1;
+		}
+	</style>
 
-			.hiddenHint {
-			    opacity: 0;
-			    transition: opacity 0.5s;
-			    cursor: default;
-			    position: absolute;
-			    top: 50%;
-			    left: 50%;
-			    transform: translate(-50%, -50%);
-			    width: 40%;
-			    margin: 0;
-			    background-color: black;
-			    color: #00ff00;
-			    font-weight: bold;
-			}
+	<script async src="https://www.googletagmanager.com/gtag/js?id=G-L14K2Y7ZGP"></script>
+	<script>
+		window.dataLayer = window.dataLayer || [];
+		function gtag() { dataLayer.push(arguments); }
+		gtag('js', new Date());
 
-			    .hiddenHint:hover {
-			        opacity: 1;
-			    }
+		gtag('config', 'G-L14K2Y7ZGP');
+	</script>
 
-			.wrapper {
-			    position: relative;
-			    display: inline-block;
-			}
-
-			.inputWrapper {
-			    position: relative;
-			    display: inline-block;
-			    margin-top: 20px;
-			}
-
-			#haslo {
-			    background: rgba(0, 0, 0, 0.8);
-			    color: #00ff00;
-			    border: 1px solid #00ff00;
-			    padding: 10px;
-			    position: relative;
-			    z-index: 1;
-			}
-
-
-			<script async src="https://www.googletagmanager.com/gtag/js?id=G-L14K2Y7ZGP"></script>
-			<script>
-			window.dataLayer = window.dataLayer || [];
-			function gtag(){dataLayer.push(arguments);}
-			gtag('js', new Date());
-
-			gtag('config', 'G-L14K2Y7ZGP');
-			</script>
-		</style>
-	</head>
+</head>
 	<body>
 		<div class="wrapper">
 			<h1>Wprowadz kod dostepu</h1>
