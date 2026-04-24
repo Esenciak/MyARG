@@ -1,0 +1,244 @@
+﻿<!DOCTYPE html>
+<html lang="pl">
+<head>
+    <meta charset="UTF-8">
+    <title>B R A M A</title>
+    <style>
+        /* NAUKA: Zastosujemy zaawansowane animacje i pseudo-elementy
+           do symulacji rozpadającej się, liminalnej przestrzeni.
+        */
+
+        :root {
+            /* Zmienne CSS, żeby łatwo zmieniać kolory w całym projekcie */
+            --bg-color: #010005;
+            --text-color: #00ff41; /* Hakerski zielony */
+            --danger-color: #ff0000;
+        }
+
+        body {
+            background-color: var(--bg-color);
+            color: var(--text-color);
+            font-family: 'Courier New', Courier, monospace;
+            overflow: hidden; /* Gracz nie może przewijać strony, jest uwięziony */
+            height: 100vh;
+            margin: 0;
+            display: flex;
+            flex-direction: column;
+            justify-content: center;
+            align-items: center;
+            /* NAUKA: Podmieniamy kursor myszy na niestandardowy (znikający)
+               by wywołać niepokój.
+            */
+            cursor: crosshair;
+        }
+
+            /*
+           NAUKA (::before): Pseudo-element tworzy warstwę SZUMU I LINII na wierzchu.
+           Wymaga absolutnego pozycjonowania i pointer-events: none,
+           żeby nie blokował kliknięć myszką.
+        */
+            body::before {
+                content: "";
+                position: absolute;
+                top: 0;
+                left: 0;
+                width: 100%;
+                height: 100%;
+                background-image: repeating-linear-gradient(0deg, transparent, transparent 1px, rgba(0,255,65,0.05) 1px, rgba(0,255,65,0.05) 2px), /* Linie CRT */
+                url('data:image/png;base64,iVBORw0KGgoAAAANSUhEUgAAAAQAAAAECAYAAACp8Z5+AAAAIklEQVQIW2NkQAKrVq36z8gAFWNhYfEfiEAFGf//////HwALbAgCfsK9XwAAAABJRU5ErkJggg=='); /* Bardzo mały, statyczny szum w PNG */
+                opacity: 0.8;
+                pointer-events: none;
+                z-index: 10; /* Zawsze na wierzchu */
+                animation: trzaski 0.1s infinite;
+            }
+
+        /* Frakcja liminalna: Element, który "rozrywa" stronę na pół
+        */
+        .brama-wrapper {
+            position: relative;
+            text-align: center;
+            filter: blur(1px);
+            animation: niestabilnosc-bramy 4s infinite alternate ease-in-out;
+        }
+
+        /* Główny tytuł z efektem CHROMATYCZNEJ ABERRACJI (Glitch kolorów) */
+        .glitch-title {
+            font-size: 60px;
+            font-weight: bold;
+            color: white;
+            text-transform: uppercase;
+            letter-spacing: 15px;
+            position: relative;
+            animation: trzask-tekstu 0.3s infinite;
+        }
+
+            /*
+           ::before i ::after tutaj tworzą kopie tekstu w innych kolorach
+           i przesuwają je, symulując zepsuty monitor (Aberracja Chromatyczna).
+        */
+            .glitch-title::before,
+            .glitch-title::after {
+                content: "BRAMA";
+                position: absolute;
+                top: 0;
+                left: 0;
+                opacity: 0.8;
+            }
+
+            .glitch-title::before {
+                color: #ff00ff; /* Magenta */
+                animation: glitch-offset 0.1s infinite alternate-reverse;
+                z-index: -1;
+            }
+
+            .glitch-title::after {
+                color: #00ffff; /* Cyan */
+                animation: glitch-offset 0.1s infinite alternate;
+                z-index: -2;
+            }
+
+        /* Kontener na koordynaty z Babel */
+        .coords-box {
+            border: 2px solid var(--text-color);
+            background: rgba(0,20,0,0.5);
+            padding: 20px;
+            margin-top: 50px;
+            color: var(--text-color);
+            font-size: 14px;
+            text-align: left;
+            width: 80%;
+            max-width: 600px;
+            box-shadow: 0 0 15px var(--text-color);
+            /* Nauka: Element delikatnie się deformuje */
+            animation: pulsowanie-boxa 2s infinite ease-in-out;
+        }
+
+        /* Tekst koordynatów - shifting, czyli litery się delikatnie poruszają */
+        .shifting-text p {
+            margin: 5px 0;
+            opacity: 0.9;
+        }
+
+            .shifting-text p:hover {
+                color: var(--danger-color);
+                text-shadow: 0 0 5px var(--danger-color);
+            }
+
+        /* === SEKACJA DEFINICJI ANIMACJI (@keyframes) === */
+
+        /* Szum na ekranie */
+        @keyframes trzaski {
+            0% {
+                transform: translate(0,0) scale(1);
+            }
+
+            50% {
+                transform: translate(1px, -1px) scale(1.002);
+            }
+
+            100% {
+                transform: translate(-1px, 1px) scale(0.998);
+            }
+        }
+
+        /* Niestabilność całej bramy (blur i deformacja) */
+        @keyframes niestabilnosc-bramy {
+            0% {
+                filter: blur(0.5px);
+                transform: skewX(0deg) scale(1);
+            }
+
+            50% {
+                filter: blur(2px) contrast(1.5);
+                transform: skewX(1deg) scale(1.02);
+            }
+
+            100% {
+                filter: blur(1px);
+                transform: skewX(-1deg) scale(0.98);
+            }
+        }
+
+        /* Trzęsienie tytułu BRAMA */
+        @keyframes trzask-tekstu {
+            0% {
+                transform: translate(0,0);
+            }
+
+            10% {
+                transform: translate(-2px, 1px);
+            }
+
+            20% {
+                transform: translate(2px, -1px);
+            }
+
+            30% {
+                transform: translate(1px, 2px);
+            }
+
+            40% {
+                transform: translate(-1px, -2px);
+            }
+
+            50% {
+                transform: translate(0,0);
+            }
+        }
+
+        /* Chromatyczna aberracja (przesunięcie kolorowych warstw) */
+        @keyframes glitch-offset {
+            0% {
+                transform: translate(-3px, 1px);
+            }
+
+            100% {
+                transform: translate(3px, -1px);
+            }
+        }
+
+        /* Pulsowanie obramowania koordynatów */
+        @keyframes pulsowanie-boxa {
+            0% {
+                border-color: var(--text-color);
+                box-shadow: 0 0 5px var(--text-color);
+            }
+
+            50% {
+                border-color: #33ff33;
+                box-shadow: 0 0 20px #33ff33;
+            }
+
+            100% {
+                border-color: var(--text-color);
+                box-shadow: 0 0 5px var(--text-color);
+            }
+        }
+    </style>
+</head>
+<body>
+
+    <div class="brama-wrapper">
+        <h1 class="glitch-title">BRAMA</h1>
+    </div>
+
+    <div class="coords-box">
+        <p style="color:white; text-align:center;">> ARCHIWUM UNIWERSALNE ZAŁADOWANE.</p>
+        <p style="color:var(--danger-color); font-weight:bold;">> OSTRZEŻENIE: PRAWDY NIE MOŻNA COFNĄĆ.</p>
+        <br>
+        <div class="shifting-text">
+            <p>SZUKAJ W BIBLIOTECE BABEL:</p>
+            <p>=========================================</p>
+            <p>> HEX: [Długi Hex, który sam wygenerowałeś]</p>
+            <p>> Ściana: [Twój Wall]</p>
+            <p>> Półka: [Twoja Shelf]</p>
+            <p>> Tom: [Twój Volume]</p>
+            <p>> Strona: [Twoja Page]</p>
+            <p>=========================================</p>
+        </div>
+        <br>
+        <p style="color:#770000; font-size:10px; text-align:center;">> KOD LIMINALNY AKTYWNY. Pętla zerwana. <</p>
+    </div>
+
+</body>
+</html>
