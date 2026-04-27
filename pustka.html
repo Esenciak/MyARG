@@ -1,131 +1,155 @@
-﻿<!DOCTYPE html>
+﻿<!doctype html>
 <html lang="pl">
-<head>
-    <meta charset="UTF-8">
-    <title>Gdzie ja jestem?</title>
-    <style>
-        body {
-            background-color: #3a382c;
-            background-image: repeating-linear-gradient(45deg, #2b2a21 25%, transparent 25%, transparent 75%, #2b2a21 75%, #2b2a21), repeating-linear-gradient(45deg, #2b2a21 25%, #3a382c 25%, #3a382c 75%, #2b2a21 75%, #2b2a21);
-            background-position: 0 0, 10px 10px;
-            background-size: 20px 20px;
-            margin: 0;
-            height: 100vh;
-            overflow: hidden;
-            font-family: 'Courier New', Courier, monospace;
-            cursor: crosshair;
-        }
+	<head>
+		<meta charset="UTF-8" />
+		<title>Gdzie ja jestem?</title>
+		<style>
+			body {
+				background-color: #3a382c;
+				background-image:
+					repeating-linear-gradient(
+						45deg,
+						#2b2a21 25%,
+						transparent 25%,
+						transparent 75%,
+						#2b2a21 75%,
+						#2b2a21
+					),
+					repeating-linear-gradient(
+						45deg,
+						#2b2a21 25%,
+						#3a382c 25%,
+						#3a382c 75%,
+						#2b2a21 75%,
+						#2b2a21
+					);
+				background-position:
+					0 0,
+					10px 10px;
+				background-size: 20px 20px;
+				margin: 0;
+				height: 100vh;
+				overflow: hidden;
+				font-family: "Courier New", Courier, monospace;
+				cursor: crosshair;
+			}
 
-        .mrok {
-            position: absolute;
-            top: 0;
-            left: 0;
-            width: 100vw;
-            height: 100vh;
-            background: radial-gradient(circle 150px at var(--x, 50vw) var(--y, 50vh), transparent 0%, rgba(0, 0, 0, 1) 100%);
-            pointer-events: none;
-            z-index: 10;
-        }
+			.mrok {
+				position: absolute;
+				top: 0;
+				left: 0;
+				width: 100vw;
+				height: 100vh;
+				background: radial-gradient(
+					circle 150px at var(--x, 50vw) var(--y, 50vh),
+					transparent 0%,
+					rgba(0, 0, 0, 1) 100%
+				);
+				pointer-events: none;
+				z-index: 10;
+			}
 
-        .scrawl {
-            position: absolute;
-            color: #2a0000;
-            font-size: 18px;
-            font-weight: bold;
-            opacity: 0.5;
-            transform: rotate(-5deg);
-        }
+			.scrawl {
+				position: absolute;
+				color: #2a0000;
+				font-size: 18px;
+				font-weight: bold;
+				opacity: 0.5;
+				transform: rotate(-5deg);
+			}
 
-        .weteran {
-            position: absolute;
-            top: 60%;
-            left: 70%;
-            color: black;
-            font-size: 40px;
-            letter-spacing: 5px;
-            animation: drzenie 0.1s infinite;
-        }
+			.weteran {
+				position: absolute;
+				top: 60%;
+				left: 70%;
+				color: black;
+				font-size: 40px;
+				letter-spacing: 5px;
+				animation: drzenie 0.1s infinite;
+			}
 
-        #koniec {
-            position: fixed;
-            top: 0;
-            left: 0;
-            width: 100vw;
-            height: 100vh;
-            background-color: #660000;
-            color: black;
-            display: flex;
-            flex-direction: column;
-            justify-content: center;
-            align-items: center;
-            z-index: 100;
-            opacity: 0; 
-            pointer-events: none; 
-            transition: opacity 0.1s; 
-        }
+			#koniec {
+				position: fixed;
+				top: 0;
+				left: 0;
+				width: 100vw;
+				height: 100vh;
+				background-color: #660000;
+				color: black;
+				display: flex;
+				flex-direction: column;
+				justify-content: center;
+				align-items: center;
+				z-index: 100;
+				opacity: 0;
+				pointer-events: none;
+				transition: opacity 0.1s;
+			}
 
-           
-            #koniec.aktywny {
-                opacity: 1;
-                pointer-events: all;
-                cursor: pointer; 
-            }
+			#koniec.aktywny {
+				opacity: 1;
+				pointer-events: all;
+				cursor: pointer;
+			}
 
-            #koniec h1 {
-                font-size: 80px;
-                margin: 0;
-                animation: drzenie 0.05s infinite; 
-            }
+			#koniec h1 {
+				font-size: 80px;
+				margin: 0;
+				animation: drzenie 0.05s infinite;
+			}
 
-        @keyframes drzenie {
-            0% {
-                transform: translate(2px, 1px) rotate(0deg);
-            }
+			@keyframes drzenie {
+				0% {
+					transform: translate(2px, 1px) rotate(0deg);
+				}
 
-            50% {
-                transform: translate(-1px, -2px) rotate(-1deg);
-            }
+				50% {
+					transform: translate(-1px, -2px) rotate(-1deg);
+				}
 
-            100% {
-                transform: translate(-2px, 2px) rotate(1deg);
-            }
-        }
-    </style>
-</head>
-<body>
+				100% {
+					transform: translate(-2px, 2px) rotate(1deg);
+				}
+			}
+		</style>
+	</head>
+	<body>
+		<div class="mrok"></div>
 
-    <div class="mrok"></div>
+		<div class="scrawl" style="top: 20%; left: 15%">czas ucieka</div>
+		<div
+			class="scrawl"
+			style="top: 80%; left: 30%; transform: rotate(10deg); font-size: 24px">
+			PĘTLA SIĘ ZAMYKA
+		</div>
+		<div class="scrawl" style="top: 10%; left: 60%; font-size: 12px">
+			nie patrz za siebie
+		</div>
+		<div class="weteran">JESTEM_TU</div>
 
-    <div class="scrawl" style="top: 20%; left: 15%;">czas ucieka</div>
-    <div class="scrawl" style="top: 80%; left: 30%; transform: rotate(10deg); font-size: 24px;">PĘTLA SIĘ ZAMYKA</div>
-    <div class="scrawl" style="top: 10%; left: 60%; font-size: 12px;">nie patrz za siebie</div>
-    <div class="weteran" >JESTEM_TU</div>
+		<div id="koniec" onclick="wrocDoStartu()">
+			<h1>Z N A L A Z Ł C I Ę</h1>
+			<p>> KLIKNIJ ABY UCIEC <</p>
+		</div>
 
-    <div id="koniec" onclick="wrocDoStartu()">
-        <h1>Z N A L A Z Ł  C I Ę</h1>
-        <p>> KLIKNIJ ABY UCIEC <</p>
-    </div>
+		<script>
+			// Logika latarki
+			const mrok = document.querySelector(".mrok");
+			document.addEventListener("mousemove", (e) => {
+				mrok.style.setProperty("--x", e.clientX + "px");
+				mrok.style.setProperty("--y", e.clientY + "px");
+			});
 
-    <script>
-        // Logika latarki
-        const mrok = document.querySelector('.mrok');
-        document.addEventListener('mousemove', (e) => {
-            mrok.style.setProperty('--x', e.clientX + 'px');
-            mrok.style.setProperty('--y', e.clientY + 'px');
-        });
+			setTimeout(() => {
+				document.getElementById("koniec").classList.add("aktywny");
 
+				mrok.style.display = "none";
+			}, 12000);
 
-        setTimeout(() => {
-            document.getElementById('koniec').classList.add('aktywny');
-
-            mrok.style.display = 'none';
-        }, 12000);
-
-        // Funkcja do powrotu na start
-        function wrocDoStartu() {
-            window.location.href = "gra/index.html";
-        }
-    </script>
-
-</body>
+			// Funkcja do powrotu na start
+			function wrocDoStartu() {
+				window.location.href = "gra/";
+			}
+		</script>
+	</body>
 </html>
