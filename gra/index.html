@@ -25,7 +25,7 @@
 				}
 			}
 		</script>
-		<script src="Build/MyARG.loader.js"></script>
+		<script src="PaczkaWebGL/MyARG.loader.js"></script>
 		<script>
 			if (/iPhone|iPad|iPod|Android/i.test(navigator.userAgent)) {
 				// Mobile device style: fill the whole browser client area with the game canvas:
@@ -45,9 +45,9 @@
 
 			createUnityInstance(document.querySelector("#unity-canvas"), {
 				arguments: [],
-				dataUrl: "Build/MyARG.data",
-				frameworkUrl: "Build/MyARG.framework.js",
-				codeUrl: "Build/MyARG.wasm",
+				dataUrl: "PaczkaWebGL/MyARG.data",
+				frameworkUrl: "PaczkaWebGL/MyARG.framework.js",
+				codeUrl: "PaczkaWebGL/MyARG.wasm",
 				streamingAssetsUrl: "StreamingAssets",
 				companyName: "Karol_Jablonski_Game",
 				productName: "Weteran_VerticalSlice",
