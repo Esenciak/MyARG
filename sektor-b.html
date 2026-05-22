@@ -62,19 +62,22 @@
 
     <script>
         function sprawdzKomende() {
-            let wpisanaKomenda = document.getElementById("komenda").value.toLowerCase();
+    
+    let wpisanaKomenda = document.getElementById("komenda").value.toLowerCase().trim();
 
-            if (wpisanaKomenda === "nadpisz") {
-                window.location.href = "brama";
-            } else if (wpisanaKomenda === "odzyskaj") {
-                alert("ODZYSKANO LOG: \nNAZWA: sys-dump-445 \nZAWARTOŚĆ: POWAŻNIE USZKODZONE");
-            } else if (wpisanaKomenda === "liminalny") {
-               
-                window.location.href = "pustka";
-            } else {
-                alert("Nieznana komenda.");
-            }
-        }
+ 
+    let zakodowana = btoa(wpisaneKomenda);
+
+    if (zakodowana === "bmFkcGlzei=") { 
+        window.location.href = "brama";
+    } else if (zakodowana === "b2R6eXNrYWp=") { 
+        alert("ODZYSKANO LOG: \nNAZWA: sys-dump-445 \nZAWARTOŚĆ: POWAŻNIE USZKODZONE");
+    } else if (zakodowana === "bGltaW5hbG55") { 
+        window.location.href = "pustka";
+    } else {
+        alert("Nieznana komenda.");
+    }
+}
 
     </script>
 
