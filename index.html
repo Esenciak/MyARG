@@ -96,7 +96,7 @@
 			<p class="hiddenHint">Znajdz nazwe</p>
 		</div>
 
-		<p class="sekretblur">Tam gdzie ON zaginął</p>
+		<p class="sekretblur">Tam gdzie stworzyli anomalie zaginął</p>
 
 		<div class="inputWrapper">
 			<input type="text" id="haslo" />
@@ -105,7 +105,7 @@
 		</div>
 
 		<p class="sekret">
-			Koordynaty: 52.2293801233489 N, 21.01292082490763 E. <br />Tam gdzie sie
+			Koordynaty: 46.2341,6.0489 <br />Tam gdzie sie
 			zaczelo
 		</p>
 
@@ -113,7 +113,7 @@
 			function sprawdz() {
 				let wpisaneHaslo = document.getElementById("haslo").value.toLowerCase();
 
-				if (btoa(wpisaneHaslo) === "bm92b3RlbA==") {
+				if (btoa(wpisaneHaslo) === "Y2Vybg==") {
                     gtag('event', 'haslo_odgadniete', { 'event_category': 'gra' });
 					alert("Dostep przyznany. Projekt WETERAN zainicjowany.");
 					window.location.href = "sektor-b";
