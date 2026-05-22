@@ -69,10 +69,14 @@
 				companyName: "Karol_Jablonski_Game",
 				productName: "Weteran_VerticalSlice",
 				productVersion: "0.1.0",
-				// matchWebGLToCanvasSize: false, // Uncomment this to separately control WebGL canvas render size and DOM element size.
-				// devicePixelRatio: 1, // Uncomment this to override low DPI rendering on high DPI displays.
 			})
-				.then((unityInstance) => {})
+				.then((unityInstance) => {
+					
+					var canvas = document.querySelector("#unity-canvas");
+					canvas.addEventListener('click', function() {
+						unityInstance.SetFullscreen(1);
+					}, { once: true });
+				})
 				.catch((message) => {
 					alert(message);
 				});
