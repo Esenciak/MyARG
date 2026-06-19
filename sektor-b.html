@@ -61,6 +61,9 @@
     <p class="secret-hint">DEBUG: Ostatnia znana komenda ratunkowa to 'odzyskaj'. Zrzut pamięci wygenerowano pomyślnie.</p>
 
     <script>
+        console.log("%c[SYSTEM]: NIE AUTORYZOWANO DOSTĘPU DO KONSOLI.", "color: red; font-size: 16px; font-weight: bold; background: black; padding: 5px;");
+        console.log("%cWidzę, że próbujesz oszukiwać. Szukasz tu wyjścia? Wyjścia nie ma.", "color: #770000; font-size: 14px; font-family: monospace;");    
+
         function sprawdzKomende() {
             let wpisanaKomenda = document.getElementById("komenda").value.toLowerCase().trim();
             let zakodowana = btoa(wpisanaKomenda);
@@ -83,7 +86,10 @@
                 } else if (zakodowana === "c2VrdG9yIGI=") { 
                     alert("[SYSTEM]: Jesteś już w Sektorze B.");
                 } else if (zakodowana === "bGltaW5hbG55") { 
-                    window.location.href = "pustka";
+                    document.body.style.cursor = "none"; 
+                    setTimeout(() => {
+                    window.location.href = "pustka.html"; 
+                    }, 1000);
                 } else if (zakodowana === "ZGlhZ25vemE=") { 
                     window.location.href = "diagnoza.html";
                 } else {
@@ -101,6 +107,8 @@
                 }
             }
         }
+
+        
     </script>
 
 </body>

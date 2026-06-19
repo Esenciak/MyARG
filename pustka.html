@@ -150,6 +150,15 @@
 			function wrocDoStartu() {
 				window.location.href = "gra/";
 			}
+
+
+			const tytuly = ["Gdzie ja jestem?", "W I D Z Ę   C I Ę", "pętla_trwa.exe", "nie uciekniesz"];
+				let indexTytulu = 0;
+
+				setInterval(() => {
+    			document.title = tytuly[indexTytulu];
+    			indexTytulu = (indexTytulu + 1) % tytuly.length;
+				}, 1500);
 		</script>
 	</body>
 </html>
