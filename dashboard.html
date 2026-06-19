@@ -2,68 +2,25 @@
 <html lang="pl">
 <head>
     <meta charset="UTF-8">
-    <title>PANEL ADMINISTRATORA - TELEMETRIA</title>
+    <title>PANEL ADMINISTRATORA - TELEMETRIA LIVE</title>
     <style>
-        body {
-            background-color: #050505;
-            color: #00ff41;
-            font-family: 'Courier New', Courier, monospace;
-            padding: 30px;
-        }
-        h1 { 
-            color: #ff3333; 
-            text-align: center; 
-            letter-spacing: 2px;
-        }
-        .container {
-            max-width: 1000px;
-            margin: 0 auto;
-        }
-        table {
-            width: 100%;
-            border-collapse: collapse;
-            margin-top: 20px;
-            background-color: rgba(0, 20, 0, 0.5);
-        }
-        th, td {
-            border: 1px solid #00ff41;
-            padding: 12px;
-            text-align: left;
-        }
-        th {
-            background-color: #003300;
-            color: #ffffff;
-            font-size: 1.1rem;
-        }
-        tr:hover {
-            background-color: rgba(0, 255, 65, 0.1);
-        }
-        .highlight {
-            color: #ff8800;
-            font-weight: bold;
-        }
-        .btn {
-            background-color: #ff3333;
-            color: white;
-            border: 1px solid red;
-            padding: 10px 20px;
-            cursor: pointer;
-            font-weight: bold;
-            display: block;
-            margin: 20px auto;
-            font-family: inherit;
-        }
-        .btn:hover { 
-            background-color: black; 
-            color: #ff3333;
-        }
+        body { background-color: #050505; color: #00ff41; font-family: 'Courier New', Courier, monospace; padding: 30px; }
+        h1 { color: #ff3333; text-align: center; letter-spacing: 2px; }
+        .container { max-width: 1000px; margin: 0 auto; }
+        table { width: 100%; border-collapse: collapse; margin-top: 20px; background-color: rgba(0, 20, 0, 0.5); }
+        th, td { border: 1px solid #00ff41; padding: 12px; text-align: left; }
+        th { background-color: #003300; color: white; font-size: 1.1rem; }
+        tr:hover { background-color: rgba(0, 255, 65, 0.1); }
+        .highlight { color: #ff8800; font-weight: bold; }
+        .btn { background-color: #003300; color: #00ff41; border: 1px solid #00ff41; padding: 10px 20px; cursor: pointer; font-weight: bold; display: block; margin: 20px auto; font-family: inherit; }
+        .btn:hover { background-color: #00ff41; color: black; }
     </style>
 </head>
 <body>
     <div class="container">
-        <h1>> BAZA DANYCH: LOGI SYSTEMU WETERAN <</h1>
+        <h1>> TRANSMISJA LIVE: LOGI SYSTEMU WETERAN <</h1>
         
-        <button class="btn" onclick="wyczyscLogi()">[ WYCZYŚĆ WSZYSTKIE DANE ]</button>
+        <button class="btn" onclick="zaladujLogiZChmury()">[ ODŚWIEŻ LOGI (GET) ]</button>
 
         <table>
             <thead>
@@ -75,61 +32,63 @@
                 </tr>
             </thead>
             <tbody id="tabela-logow">
-                </tbody>
+                <tr><td colspan='4' style='text-align:center; color:#aaa;'>Pobieranie danych z bazy...</td></tr>
+            </tbody>
         </table>
     </div>
 
     <script>
-        function zaladujLogi() {
-            // Pobranie danych z pamięci przeglądarki
-            let logs = JSON.parse(localStorage.getItem("arg_telemetry")) || [];
+        const API_URL = "https://TUTAJ_WKLEJ_TWÓJ_URL_API/logs"; // Ten sam URL co wyżej
+
+        function zaladujLogiZChmury() {
             let tbody = document.getElementById("tabela-logow");
-            tbody.innerHTML = ""; // Czyszczenie tabeli przed załadowaniem
+            
+            // Wykonujemy żądanie GET do bazy w chmurze
+            fetch(API_URL)
+                .then(res => res.json())
+                .then(logs => {
+                    tbody.innerHTML = ""; // Czyścimy tabelę
 
-            if (logs.length === 0) {
-                tbody.innerHTML = "<tr><td colspan='4' style='text-align:center; color:#555;'>Brak zapisanych logów w tym systemie.</td></tr>";
-                return;
-            }
+                    if (!logs || logs.length === 0) {
+                        tbody.innerHTML = "<tr><td colspan='4' style='text-align:center; color:#555;'>Brak zapisanych logów w bazie.</td></tr>";
+                        return;
+                    }
 
-            // Odwracamy tablicę, żeby najnowsze akcje były na samej górze
-            logs.reverse().forEach(log => {
-                let tr = document.createElement("tr");
-                
-                let tdCzas = document.createElement("td");
-                tdCzas.textContent = log.czas;
-                tr.appendChild(tdCzas);
+                    // Najnowsze akcje wyświetlamy na samej górze (odwracamy kolejność)
+                    logs.reverse().forEach(log => {
+                        let tr = document.createElement("tr");
+                        
+                        let tdCzas = document.createElement("td");
+                        tdCzas.textContent = log.czas || "-";
+                        tr.appendChild(tdCzas);
 
-                let tdStrona = document.createElement("td");
-                tdStrona.textContent = log.strona;
-                tr.appendChild(tdStrona);
+                        let tdStrona = document.createElement("td");
+                        tdStrona.textContent = log.strona || "-";
+                        tr.appendChild(tdStrona);
 
-                let tdAkcja = document.createElement("td");
-                tdAkcja.textContent = log.akcja;
-                tr.appendChild(tdAkcja);
+                        let tdAkcja = document.createElement("td");
+                        tdAkcja.textContent = log.akcja || "-";
+                        tr.appendChild(tdAkcja);
 
-                let tdDetale = document.createElement("td");
-                tdDetale.textContent = log.detale || "-";
-                
-                // Jeśli akcja to wpisanie komendy, wyróżniamy ją na pomarańczowo
-                if (log.akcja === "WPISANO_HASŁO" || log.akcja === "PRÓBA_KOMENDY") {
-                    tdDetale.classList.add("highlight");
-                }
-                tr.appendChild(tdDetale);
+                        let tdDetale = document.createElement("td");
+                        tdDetale.textContent = log.detale || "-";
+                        
+                        if (log.akcja === "WPISANO_HASŁO" || log.akcja === "PRÓBA_KOMENDY") {
+                            tdDetale.classList.add("highlight");
+                        }
+                        tr.appendChild(tdDetale);
 
-                tbody.appendChild(tr);
-            });
+                        tbody.appendChild(tr);
+                    });
+                })
+                .catch(err => {
+                    console.error("Błąd pobierania danych:", err);
+                    tbody.innerHTML = "<tr><td colspan='4' style='text-align:center; color:red;'>Błąd podczas połączenia z bazą telemetryczną.</td></tr>";
+                });
         }
 
-        function wyczyscLogi() {
-            if(confirm("OSTRZEŻENIE: Na pewno chcesz trwale usunąć całą historię testów?")) {
-                localStorage.removeItem("arg_telemetry");
-                localStorage.removeItem("licznik_bledow");
-                zaladujLogi();
-            }
-        }
-
-        // Uruchomienie funkcji ładującej po otwarciu strony
-        window.onload = zaladujLogi;
+        // Automatyczne pobranie logów przy otwarciu panelu
+        window.onload = zaladujLogiZChmury;
     </script>
 </body>
 </html>

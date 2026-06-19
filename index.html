@@ -114,7 +114,7 @@
 			console.log("%cWidzę, że próbujesz oszukiwać. Szukasz tu wyjścia? Wyjścia nie ma.", "color: #770000; font-size: 14px; font-family: monospace;");
 
 			function logTelemetry(eventType, details = "") {
-    let currentPage = window.location.pathname.split('/').pop() || "plik.html";
+    let currentPage = window.location.pathname.split('/').pop() || "index.html";
     
     let logData = {
         czas: new Date().toLocaleTimeString('pl-PL'),
@@ -123,14 +123,13 @@
         detale: details
     };
 
-
-    fetch("https://webhook.site/aab43ffb-c44a-4954-9ef6-92380e9d85b5", {
+    const API_URL = "https://webhook.site/aab43ffb-c44a-4954-9ef6-92380e9d85b5"; 
+    
+    fetch(API_URL, {
         method: "POST",
-        mode: "no-cors",
         headers: { "Content-Type": "application/json" },
         body: JSON.stringify(logData)
-    });
-
+    }).catch(err => console.error("Błąd telemetrii chmury:", err));
 
     let logs = JSON.parse(localStorage.getItem("arg_telemetry")) || [];
     logs.push(logData);
