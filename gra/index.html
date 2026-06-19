@@ -62,7 +62,7 @@
 
         <script>
 
-            window.dispatchReactUnityEvent = function(wynik) {
+            window.OnUnityEvent = function(wynik) {
                 if (wynik === "Zlapany") {
                     alert("ZŁAPAŁ CIĘ. PĘTLA ZRESETOWANA.");
                     window.location.href = "../reset.html";
@@ -70,6 +70,7 @@
                     window.location.href = "../zwyciestwo.html";
                 }
             };
+            window.dispatchReactUnityEvent = window.OnUnityEvent;
         </script>
         
         <script src="PaczkaWebGL/MyARG.loader.js"></script>
