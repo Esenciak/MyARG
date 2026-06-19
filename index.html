@@ -113,33 +113,29 @@
 			console.log("%c[SYSTEM]: NIE AUTORYZOWANO DOSTĘPU DO KONSOLI.", "color: red; font-size: 16px; font-weight: bold; background: black; padding: 5px;");
 			console.log("%cWidzę, że próbujesz oszukiwać. Szukasz tu wyjścia? Wyjścia nie ma.", "color: #770000; font-size: 14px; font-family: monospace;");
 
-			// --- SYSTEM TELEMETRYCZNY GA4 ---
-   		function logTelemetry(eventType, details = "") {
-       		 let currentPage = window.location.pathname.split('/').pop() || "index.html";
+			function logTelemetry(eventType, details = "") {
+    let currentPage = window.location.pathname.split('/').pop() || "plik.html";
+    
+    let logData = {
+        czas: new Date().toLocaleTimeString('pl-PL'),
+        strona: currentPage,
+        akcja: eventType,
+        detale: details
+    };
 
-        // 1. WYSYŁKA DO GOOGLE ANALYTICS
-        if (typeof gtag === 'function') {
-            gtag('event', 'akcja_w_arg', {
-                'event_category': 'telemetria',
-                'typ_akcji': eventType,      
-                'strona': currentPage,       
-                'wpisane_detale': details    
-            });
-        }
 
-        let logs = JSON.parse(localStorage.getItem("arg_telemetry")) || [];
-        logs.push({
-            czas: new Date().toLocaleTimeString('pl-PL'),
-            strona: currentPage,
-            akcja: eventType,
-            detale: details
-        });
-        localStorage.setItem("arg_telemetry", JSON.stringify(logs));
-    	}
+    fetch("https://webhook.site/aab43ffb-c44a-4954-9ef6-92380e9d85b5", {
+        method: "POST",
+        mode: "no-cors",
+        headers: { "Content-Type": "application/json" },
+        body: JSON.stringify(logData)
+    });
 
-			window.addEventListener('load', () => { 
-				logTelemetry("WEJŚCIE_NA_STRONĘ", "Załadowano widok"); 
-			});
+
+    let logs = JSON.parse(localStorage.getItem("arg_telemetry")) || [];
+    logs.push(logData);
+    localStorage.setItem("arg_telemetry", JSON.stringify(logs));
+}
 			
 
 			function sprawdz() {
