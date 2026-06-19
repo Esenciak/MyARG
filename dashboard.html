@@ -4,72 +4,21 @@
     <meta charset="UTF-8">
     <title>PANEL ADMINISTRATORA - LIVE CHMURA</title>
     <style>
-        body { 
-            background-color: #050505; 
-            color: #00ff41; 
-            font-family: 'Courier New', Courier, monospace; 
-            padding: 30px; 
-        }
-        h1 { 
-            color: #ff3333; 
-            text-align: center; 
-            letter-spacing: 2px; 
-        }
-        .container { 
-            max-width: 1000px; 
-            margin: 0 auto; 
-        }
-        table { 
-            width: 100%; 
-            border-collapse: collapse; 
-            margin-top: 20px; 
-            background-color: rgba(0, 20, 0, 0.5); 
-        }
-        th, td { 
-            border: 1px solid #00ff41; 
-            padding: 12px; 
-            text-align: left; 
-        }
-        th { 
-            background-color: #003300; 
-            color: white; 
-            font-size: 1.1rem; 
-        }
-        tr:hover { 
-            background-color: rgba(0, 255, 65, 0.1); 
-        }
-        .highlight { 
-            color: #ff8800; 
-            font-weight: bold; 
-        }
-        .flex-buttons {
-            display: flex;
-            justify-content: center;
-            gap: 20px;
-            margin: 20px 0;
-        }
-        .btn { 
-            background-color: #003300; 
-            color: #00ff41; 
-            border: 1px solid #00ff41; 
-            padding: 10px 20px; 
-            cursor: pointer; 
-            font-weight: bold; 
-            font-family: inherit; 
-        }
-        .btn:hover { 
-            background-color: #00ff41; 
-            color: black; 
-        }
-        .btn-danger {
-            background-color: #330000;
-            color: #ff3333;
-            border: 1px solid #ff3333;
-        }
-        .btn-danger:hover {
-            background-color: #ff3333;
-            color: black;
-        }
+        body { background-color: #050505; color: #00ff41; font-family: 'Courier New', Courier, monospace; padding: 30px; }
+        h1 { color: #ff3333; text-align: center; letter-spacing: 2px; }
+        .container { max-width: 1100px; margin: 0 auto; }
+        table { width: 100%; border-collapse: collapse; margin-top: 20px; background-color: rgba(0, 20, 0, 0.5); }
+        th, td { border: 1px solid #00ff41; padding: 10px; text-align: left; }
+        th { background-color: #003300; color: white; }
+        tr:hover { background-color: rgba(0, 255, 65, 0.1); }
+        .highlight { color: #ff8800; font-weight: bold; }
+        .flex-buttons { display: flex; justify-content: center; gap: 20px; margin: 20px 0; align-items: center; }
+        .btn { background-color: #003300; color: #00ff41; border: 1px solid #00ff41; padding: 10px 20px; cursor: pointer; font-weight: bold; font-family: inherit; }
+        .btn:hover { background-color: #00ff41; color: black; }
+        .btn-danger { background-color: #330000; color: #ff3333; border: 1px solid #ff3333; }
+        .btn-danger:hover { background-color: #ff3333; color: black; }
+        .filter-box { background: #001a00; border: 1px solid #00ff41; padding: 10px; display: inline-block; }
+        select { background: black; color: #00ff41; border: 1px solid #00ff41; padding: 5px; font-family: inherit; cursor: pointer; outline: none; }
     </style>
 </head>
 <body>
@@ -78,105 +27,142 @@
         
         <div class="flex-buttons">
             <button class="btn" onclick="zaladujLogi()">[ ODŚWIEŻ DANE ]</button>
+            
+            <div class="filter-box">
+                <label for="filter-gracz">OBCZAI GRACZA: </label>
+                <select id="filter-gracz" onchange="renderujTabele()">
+                    <option value="ALL">-- WSZYSCY GRACZE --</option>
+                </select>
+            </div>
+
             <button class="btn btn-danger" id="btn-delete" onclick="wyczyscBazeZChmury()">[ RESETUJ BAZĘ W CHMURZE ]</button>
         </div>
 
         <table>
             <thead>
                 <tr>
-                    <th style="width: 10%;">ID</th>
+                    <th style="width: 5%;">ID</th>
+                    <th style="width: 15%;">Gracz</th>
                     <th style="width: 15%;">Czas</th>
-                    <th style="width: 20%;">Strona</th>
+                    <th style="width: 15%;">Strona</th>
                     <th style="width: 20%;">Zdarzenie</th>
-                    <th style="width: 35%;">Szczegóły / Wpisane hasło</th>
+                    <th style="width: 30%;">Szczegóły / Wpisane hasło</th>
                 </tr>
             </thead>
             <tbody id="tabela-logow">
-                <tr><td colspan='5' style='text-align:center; color:#aaa;'>Pobieranie danych z bazy MockAPI...</td></tr>
+                <tr><td colspan='6' style='text-align:center; color:#aaa;'>Pobieranie danych z bazy MockAPI...</td></tr>
             </tbody>
         </table>
     </div>
 
     <script>
         const API_URL = "https://6a351b7ff957779fdb301cb3.mockapi.io/logs";
+        let wszystkieLogi = [];
 
         function zaladujLogi() {
             let tbody = document.getElementById("tabela-logow");
+            tbody.innerHTML = "<tr><td colspan='6' style='text-align:center; color:#00ff41;'>Odświeżanie strumienia...</td></tr>";
             
             fetch(API_URL)
                 .then(res => res.json())
                 .then(logs => {
-                    tbody.innerHTML = "";
-
-                    if (!logs || logs.length === 0) {
-                        tbody.innerHTML = "<tr><td colspan='5' style='text-align:center; color:#555;'>Baza danych chmury jest pusta.</td></tr>";
-                        return;
-                    }
-
-                    logs.sort((a, b) => parseInt(b.id) - parseInt(a.id));
-
-                    logs.forEach(log => {
-                        let tr = document.createElement("tr");
-                        
-                        let tdId = document.createElement("td");
-                        tdId.textContent = `#${log.id}`;
-                        tdId.style.color = "#555";
-                        tr.appendChild(tdId);
-
-                        let tdCzas = document.createElement("td");
-                        tdCzas.textContent = log.czas || "-";
-                        tr.appendChild(tdCzas);
-
-                        let tdStrona = document.createElement("td");
-                        tdStrona.textContent = log.strona || "-";
-                        tr.appendChild(tdStrona);
-
-                        let tdAkcja = document.createElement("td");
-                        tdAkcja.textContent = log.akcja || "-";
-                        tr.appendChild(tdAkcja);
-
-                        let tdDetale = document.createElement("td");
-                        tdDetale.textContent = log.detale || "-";
-                        
-                        if (log.akcja === "WPISANO_HASŁO" || log.akcja === "PRÓBA_KOMENDY") {
-                            tdDetale.classList.add("highlight");
-                        }
-                        tr.appendChild(tdDetale);
-
-                        tbody.appendChild(tr);
-                    });
+                    wszystkieLogi = logs || [];
+                    aktualizujFiltry();
+                    renderujTabele();
                 })
                 .catch(err => {
                     console.error("Błąd pobierania:", err);
-                    tbody.innerHTML = "<tr><td colspan='5' style='text-align:center; color:red;'>Błąd połączenia z serwerem MockAPI.</td></tr>";
+                    tbody.innerHTML = "<tr><td colspan='6' style='text-align:center; color:red;'>Błąd połączenia z serwerem MockAPI.</td></tr>";
                 });
         }
 
+        function aktualizujFiltry() {
+            let select = document.getElementById("filter-gracz");
+            let obecnyWybor = select.value;
+            select.innerHTML = '<option value="ALL">-- WSZYSCY GRACZE --</option>';
 
-        async function wyczyscBazeZChmury() {
-            if (!confirm("KRYTYCZNE OSTRZEŻENIE: Czy na pewno chcesz całkowicie wyczyścić bazę danych w chmurze przed testem?")) {
+            let unikalniGracze = [...new Set(wszystkieLogi.map(l => l.gracz).filter(Boolean))];
+            
+            unikalniGracze.forEach(g => {
+                let opt = document.createElement("option");
+                opt.value = g;
+                opt.textContent = g;
+                select.appendChild(opt);
+            });
+
+
+            if (unikalniGracze.includes(obecnyWybor)) {
+                select.value = obecnyWybor;
+            }
+        }
+
+        function renderujTabele() {
+            let tbody = document.getElementById("tabela-logow");
+            tbody.innerHTML = "";
+            let wybranyGracz = document.getElementById("filter-gracz").value;
+
+            let wyfiltrowane = wszystkieLogi.filter(l => wybranyGracz === "ALL" || l.gracz === wybranyGracz);
+
+            if (wyfiltrowane.length === 0) {
+                tbody.innerHTML = "<tr><td colspan='6' style='text-align:center; color:#555;'>Brak logów dla tego filtru.</td></tr>";
                 return;
             }
 
+            wyfiltrowane.sort((a, b) => parseInt(b.id) - parseInt(a.id));
+
+            wyfiltrowane.forEach(log => {
+                let tr = document.createElement("tr");
+                
+                let tdId = document.createElement("td");
+                tdId.textContent = `#${log.id}`;
+                tdId.style.color = "#555";
+                tr.appendChild(tdId);
+
+                let tdGracz = document.createElement("td");
+                tdGracz.textContent = log.gracz || "NIEZNANY";
+                tdGracz.style.color = "#fff";
+                tr.appendChild(tdGracz);
+
+                let tdCzas = document.createElement("td");
+                tdCzas.textContent = log.czas || "-";
+                tr.appendChild(tdCzas);
+
+                let tdStrona = document.createElement("td");
+                tdStrona.textContent = log.strona || "-";
+                tr.appendChild(tdStrona);
+
+                let tdAkcja = document.createElement("td");
+                tdAkcja.textContent = log.akcja || "-";
+                tr.appendChild(tdAkcja);
+
+                let tdDetale = document.createElement("td");
+                tdDetale.textContent = log.detale || "-";
+                if (log.akcja === "WPISANO_HASŁO" || log.akcja === "PRÓBA_KOMENDY") {
+                    tdDetale.classList.add("highlight");
+                }
+                tr.appendChild(tdDetale);
+
+                tbody.appendChild(tr);
+            });
+        }
+
+        async function wyczyscBazeZChmury() {
+            if (!confirm("KRYTYCZNE OSTRZEŻENIE: Czy na pewno chcesz całkowicie wyczyścić bazę danych w chmurze przed testem?")) return;
+
             let deleteBtn = document.getElementById("btn-delete");
             deleteBtn.disabled = true;
-            deleteBtn.innerText = "[ TRWA USUWANIE REKORDÓW... ]";
+            deleteBtn.innerText = "[ TRWA USUWANIE... ]";
 
             try {
-                let res = await fetch(API_URL);
-                let logs = await res.json();
-
-                for (let log of logs) {
+                for (let log of wszystkieLogi) {
                     await fetch(`${API_URL}/${log.id}`, { method: 'DELETE' });
                 }
-
                 localStorage.removeItem("licznik_bledow");
                 localStorage.removeItem("arg_telemetry");
-
-                alert("Baza danych została pomyślnie wyczyszczona.");
+                localStorage.removeItem("arg_player_id"); 
+                alert("Baza danych została wyczyszczona.");
             } catch (err) {
                 console.error("Błąd czyszczenia bazy:", err);
-                alert("Wystąpił błąd podczas usuwania danych.");
             }
 
             deleteBtn.disabled = false;

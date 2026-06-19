@@ -113,10 +113,18 @@
         
 
     <script>
-function logTelemetry(eventType, details = "") {
+        function logTelemetry(eventType, details = "") {
         let currentPage = window.location.pathname.split('/').pop() || "index.html";
         
+
+        let playerId = localStorage.getItem("arg_player_id");
+        if (!playerId) {
+            playerId = "GRACZ_" + Math.random().toString(36).substr(2, 5).toUpperCase();
+            localStorage.setItem("arg_player_id", playerId);
+        }
+        
         let logData = {
+            gracz: playerId, 
             czas: new Date().toLocaleTimeString('pl-PL'),
             strona: currentPage,
             akcja: eventType,
@@ -130,6 +138,7 @@ function logTelemetry(eventType, details = "") {
             headers: { "Content-Type": "application/json" },
             body: JSON.stringify(logData)
         }).catch(err => console.error("Błąd zapisu w chmurze:", err));
+
 
         let logs = JSON.parse(localStorage.getItem("arg_telemetry")) || [];
         logs.push(logData);
