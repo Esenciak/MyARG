@@ -61,14 +61,14 @@
 			style="width: 960px; height: 600px; background: #000000"></canvas>
 
 		<script>
-			window.dispatchReactUnityEvent = function(wynik) {
-    if (wynik === "Zlapany") {
-        alert("ZŁAPAŁ CIĘ. PĘTLA ZRESETOWANA.");
-        window.location.href = "../reset.html";
-    	} else if (wynik === "Wygrana") {
-        	window.location.href = "../zwyciestwo.html";
-    	}
-		};
+			function OnUnityEvent(wynik) {
+				if (wynik === "Zlapany") {
+					alert("ZŁAPAŁ CIĘ. PĘTLA ZRESETOWANA.");
+					window.location.href = "../reset.html";
+				} else if (wynik === "Wygrana") {
+					window.location.href = "../zwyciestwo.html";
+				}
+			}
 		</script>
 		<script src="PaczkaWebGL/MyARG.loader.js"></script>
 		<script>
