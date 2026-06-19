@@ -62,23 +62,45 @@
 
     <script>
         function sprawdzKomende() {
-    
-    let wpisanaKomenda = document.getElementById("komenda").value.toLowerCase().trim();
+            let wpisanaKomenda = document.getElementById("komenda").value.toLowerCase().trim();
+            let zakodowana = btoa(wpisanaKomenda);
+            
+            let trybOdzyskiwania = sessionStorage.getItem("recovery_mode") === "true";
 
- 
-    let zakodowana = btoa(wpisanaKomenda);
+            if (zakodowana === "b2R6eXNrYWo=") { 
+                sessionStorage.setItem("recovery_mode", "true");
+                alert("ODZYSKANO LOG: \nNAZWA: sys-dump-445 \nZAWARTOŚĆ: POWAŻNIE USZKODZONE\n\n[SYSTEM]: Zabezpieczenia zdjęte. Tryb awaryjny aktywny.");
+                document.getElementById("komenda").value = "";
+                return;
+            }
 
-    if (zakodowana === "bmFkcGlzei=") { 
-        window.location.href = "brama";
-    } else if (zakodowana === "b2R6eXNrYWo=") { 
-        alert("ODZYSKANO LOG: \nNAZWA: sys-dump-445 \nZAWARTOŚĆ: POWAŻNIE USZKODZONE");
-    } else if (zakodowana === "bGltaW5hbG55") { 
-        window.location.href = "pustka";
-    } else {
-        alert("Nieznana komenda.");
-    }
-}
-
+            if (trybOdzyskiwania) {
+                if (zakodowana === "bmFkcGlzeg==") { 
+                    window.location.href = "brama.html"; 
+                } else if (zakodowana === "cmVzZXQ=") { 
+                    sessionStorage.removeItem("recovery_mode");
+                    window.location.href = "reset.html"; 
+                } else if (zakodowana === "c2VrdG9yIGI=") { 
+                    alert("[SYSTEM]: Jesteś już w Sektorze B.");
+                } else if (zakodowana === "bGltaW5hbG55") { 
+                    window.location.href = "pustka";
+                } else if (zakodowana === "ZGlhZ25vemE=") { 
+                    window.location.href = "diagnoza.html";
+                } else {
+                    alert("[SYSTEM]: Błąd. Nieznana komenda w trybie awaryjnym.");
+                }
+            } 
+            else {
+              
+                if (zakodowana === "bmFkcGlzeg==" || zakodowana === "cmVzZXQ=" || zakodowana === "c2VrdG9yIGI=" || zakodowana === "ZGlhZ25vemE=") {
+                    alert("[BŁĄD]: Odmowa dostępu. Wymagana inicjalizacja protokołu odzyskiwania.");
+                } else if (zakodowana === "bGltaW5hbG55") { 
+                    window.location.href = "pustka"; 
+                } else {
+                    alert("Nieznana komenda.");
+                }
+            }
+        }
     </script>
 
 </body>

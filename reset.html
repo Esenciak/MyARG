@@ -1,0 +1,53 @@
+<!DOCTYPE html>
+<html lang="pl">
+<head>
+    <meta charset="UTF-8">
+    <title>RESTART CYKLU</title>
+    <style>
+        body {
+            background-color: black;
+            color: white;
+            font-family: 'Courier New', Courier, monospace;
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            height: 100vh;
+            margin: 0;
+            overflow: hidden;
+        }
+        .msg {
+            font-size: 2rem;
+            animation: fadeOut 4s forwards;
+            text-align: center;
+        }
+        @keyframes fadeOut {
+            0% { opacity: 1; color: white; }
+            20% { color: red; transform: scale(1.1); }
+            80% { opacity: 1; }
+            100% { opacity: 0; }
+        }
+        .msg2 {
+            font-size: 1rem;
+            animation:alternate-reverse 3s forwards;
+            text-align: center;
+        }
+    </style>
+</head>
+<body>
+    <div class="msg">
+        <p>CYKL ZRESETOWANY.</p>
+        <p>ROZPOCZYNANIE OD NOWA...</p>
+        <p> </p>
+        <p class = "msg2">INNI NIE MOGA ZACZYNAC OD NOWA</p>
+    </div>
+    <script>
+
+        sessionStorage.clear();
+        
+
+        setTimeout(() => {
+            window.location.href = "index.html";
+        }, 4000);
+    </script>
+</body>
+</html>

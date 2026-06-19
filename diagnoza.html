@@ -1,0 +1,67 @@
+<!DOCTYPE html>
+<html lang="pl">
+<head>
+    <meta charset="UTF-8">
+    <title>DIAGNOSTYKA SKAFANDRA</title>
+    <style>
+        body {
+            background-color: #001a00;
+            color: #00ff41;
+            font-family: 'Courier New', Courier, monospace;
+            padding: 40px;
+            overflow: hidden;
+        }
+        .warning {
+            color: #ff3333;
+            font-weight: bold;
+            animation: blink 1s infinite;
+        }
+        .telemetry {
+            border: 1px dashed #00ff41;
+            padding: 20px;
+            margin-top: 20px;
+            width: 60%;
+        }
+        @keyframes blink {
+            50% { opacity: 0; }
+        }
+        .hidden-text {
+            opacity: 0;
+            transition: opacity 3s;
+            color: #770000;
+            margin-top: 30px;
+            font-size: 1.2rem;
+        }
+    </style>
+</head>
+<body>
+    <h2>>> URUCHAMIANIE MODUŁU DIAGNOSTYCZNEGO...</h2>
+    <p>Pobieranie logów telemetrycznych skafandra: <span id="progress">0%</span></p>
+
+    <div class="telemetry" id="data-box" style="display: none;">
+        <p>ODCZYT SENSORÓW ŻYCIOWYCH:</p>
+        <p>> Tętno: <span class="warning">0 BPM</span></p>
+        <p>> Poziom tlenu: 100% (Brak konsumpcji od 47 cykli)</p>
+        <p>> Integralność powłoki: NARUSZONA</p>
+        <p>> Wniosek: <span class="warning">PODMIOT MARTWY</span></p>
+    </div>
+
+    <p class="hidden-text" id="creepy">Skoro ty jesteś martwy... to kto teraz patrzy w ten monitor?</p>
+
+    <script>
+        let progress = 0;
+        let progressInterval = setInterval(() => {
+            progress += Math.floor(Math.random() * 20) + 5;
+            if(progress >= 100) {
+                progress = 100;
+                clearInterval(progressInterval);
+                document.getElementById("data-box").style.display = "block";
+                setTimeout(() => {
+                    document.getElementById("creepy").style.opacity = 1;
+                }, 2000);
+            }
+            document.getElementById("progress").innerText = progress + "%";
+        }, 300);
+    </script>
+</body>
+</html>
