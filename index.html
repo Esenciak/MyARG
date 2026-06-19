@@ -143,14 +143,19 @@
 			
 
 			function sprawdz() {
-				let wpisaneHaslo = document.getElementById("haslo").value.toLowerCase();
+    			let wpisaneHaslo = document.getElementById("haslo").value.toLowerCase().trim();
+
+    			logTelemetry("WPISANO_HASŁO", wpisaneHaslo);
 
 				if (btoa(wpisaneHaslo) === "Y2Vybg==") {
-                    gtag('event', 'haslo_odgadniete', { 'event_category': 'gra' });
+					gtag('event', 'haslo_odgadniete', { 'event_category': 'gra' });
 					alert("Dostep przyznany. Projekt WETERAN zainicjowany.");
 					window.location.href = "sektor-b";
 				} else {
-					alert("Nieprawidlowy kod dostepu.");
+					let bledy = localStorage.getItem('licznik_bledow') || 0;
+					bledy++;
+					localStorage.setItem('licznik_bledow', bledy);
+					alert(`Nieprawidlowy kod dostepu. Liczba nieudanych prób: ${bledy}`);
 				}
 			}
 
