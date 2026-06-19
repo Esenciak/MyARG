@@ -122,32 +122,31 @@
 
 
         function logTelemetry(eventType, details = "") {
-            let currentPage = window.location.pathname.split('/').pop() || "nieznany_plik.html";
+        let currentPage = window.location.pathname.split('/').pop() || "index.html";
+        
+        let logData = {
+            czas: new Date().toLocaleTimeString('pl-PL'),
+            strona: currentPage,
+            akcja: eventType,
+            detale: details
+        };
 
+        const API_URL = "https://6a351b7ff957779fdb301cb3.mockapi.io/logs"; 
+        
+        fetch(API_URL, {
+            method: "POST",
+            headers: { "Content-Type": "application/json" },
+            body: JSON.stringify(logData)
+        }).catch(err => console.error("Błąd zapisu w chmurze:", err));
 
-            if (typeof gtag === 'function') {
-                gtag('event', 'akcja_w_arg', {
-                    'event_category': 'telemetria',
-                    'typ_akcji': eventType,      
-                    'strona': currentPage,       
-                    'wpisane_detale': details    
-                });
-            }
+        let logs = JSON.parse(localStorage.getItem("arg_telemetry")) || [];
+        logs.push(logData);
+        localStorage.setItem("arg_telemetry", JSON.stringify(logs));
+    }
 
-            let logs = JSON.parse(localStorage.getItem("arg_telemetry")) || [];
-            logs.push({
-                czas: new Date().toLocaleTimeString('pl-PL'),
-                strona: currentPage,
-                akcja: eventType,
-                detale: details
-            });
-            localStorage.setItem("arg_telemetry", JSON.stringify(logs));
-        }
-
-
-        window.addEventListener('load', () => { 
-            logTelemetry("WEJŚCIE_NA_STRONĘ", "Załadowano widok"); 
-        });
+    window.addEventListener('load', () => { 
+        logTelemetry("WEJŚCIE_NA_STRONĘ", "Załadowano widok"); 
+    });
         
     </script>
 

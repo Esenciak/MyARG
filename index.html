@@ -114,6 +114,10 @@
 			console.log("%cWidzę, że próbujesz oszukiwać. Szukasz tu wyjścia? Wyjścia nie ma.", "color: #770000; font-size: 14px; font-family: monospace;");
 
 			function logTelemetry(eventType, details = "") {
+				
+				window.addEventListener('load', () => { 
+        	logTelemetry("WEJŚCIE_NA_STRONĘ", "Załadowano widok"); 
+    			});
     let currentPage = window.location.pathname.split('/').pop() || "index.html";
     
     let logData = {

@@ -2,62 +2,127 @@
 <html lang="pl">
 <head>
     <meta charset="UTF-8">
-    <title>PANEL ADMINISTRATORA - TELEMETRIA LIVE</title>
+    <title>PANEL ADMINISTRATORA - LIVE CHMURA</title>
     <style>
-        body { background-color: #050505; color: #00ff41; font-family: 'Courier New', Courier, monospace; padding: 30px; }
-        h1 { color: #ff3333; text-align: center; letter-spacing: 2px; }
-        .container { max-width: 1000px; margin: 0 auto; }
-        table { width: 100%; border-collapse: collapse; margin-top: 20px; background-color: rgba(0, 20, 0, 0.5); }
-        th, td { border: 1px solid #00ff41; padding: 12px; text-align: left; }
-        th { background-color: #003300; color: white; font-size: 1.1rem; }
-        tr:hover { background-color: rgba(0, 255, 65, 0.1); }
-        .highlight { color: #ff8800; font-weight: bold; }
-        .btn { background-color: #003300; color: #00ff41; border: 1px solid #00ff41; padding: 10px 20px; cursor: pointer; font-weight: bold; display: block; margin: 20px auto; font-family: inherit; }
-        .btn:hover { background-color: #00ff41; color: black; }
+        body { 
+            background-color: #050505; 
+            color: #00ff41; 
+            font-family: 'Courier New', Courier, monospace; 
+            padding: 30px; 
+        }
+        h1 { 
+            color: #ff3333; 
+            text-align: center; 
+            letter-spacing: 2px; 
+        }
+        .container { 
+            max-width: 1000px; 
+            margin: 0 auto; 
+        }
+        table { 
+            width: 100%; 
+            border-collapse: collapse; 
+            margin-top: 20px; 
+            background-color: rgba(0, 20, 0, 0.5); 
+        }
+        th, td { 
+            border: 1px solid #00ff41; 
+            padding: 12px; 
+            text-align: left; 
+        }
+        th { 
+            background-color: #003300; 
+            color: white; 
+            font-size: 1.1rem; 
+        }
+        tr:hover { 
+            background-color: rgba(0, 255, 65, 0.1); 
+        }
+        .highlight { 
+            color: #ff8800; 
+            font-weight: bold; 
+        }
+        .flex-buttons {
+            display: flex;
+            justify-content: center;
+            gap: 20px;
+            margin: 20px 0;
+        }
+        .btn { 
+            background-color: #003300; 
+            color: #00ff41; 
+            border: 1px solid #00ff41; 
+            padding: 10px 20px; 
+            cursor: pointer; 
+            font-weight: bold; 
+            font-family: inherit; 
+        }
+        .btn:hover { 
+            background-color: #00ff41; 
+            color: black; 
+        }
+        .btn-danger {
+            background-color: #330000;
+            color: #ff3333;
+            border: 1px solid #ff3333;
+        }
+        .btn-danger:hover {
+            background-color: #ff3333;
+            color: black;
+        }
     </style>
 </head>
 <body>
     <div class="container">
-        <h1>> TRANSMISJA LIVE: LOGI SYSTEMU WETERAN <</h1>
+        <h1>> INTERFEJS TELEMETRYCZNY CYKLU <</h1>
         
-        <button class="btn" onclick="zaladujLogiZChmury()">[ ODŚWIEŻ LOGI (GET) ]</button>
+        <div class="flex-buttons">
+            <button class="btn" onclick="zaladujLogi()">[ ODŚWIEŻ DANE ]</button>
+            <button class="btn btn-danger" id="btn-delete" onclick="wyczyscBazeZChmury()">[ RESETUJ BAZĘ W CHMURZE ]</button>
+        </div>
 
         <table>
             <thead>
                 <tr>
+                    <th style="width: 10%;">ID</th>
                     <th style="width: 15%;">Czas</th>
                     <th style="width: 20%;">Strona</th>
-                    <th style="width: 25%;">Zdarzenie</th>
-                    <th style="width: 40%;">Wpisane hasło / Szczegóły</th>
+                    <th style="width: 20%;">Zdarzenie</th>
+                    <th style="width: 35%;">Szczegóły / Wpisane hasło</th>
                 </tr>
             </thead>
             <tbody id="tabela-logow">
-                <tr><td colspan='4' style='text-align:center; color:#aaa;'>Pobieranie danych z bazy...</td></tr>
+                <tr><td colspan='5' style='text-align:center; color:#aaa;'>Pobieranie danych z bazy MockAPI...</td></tr>
             </tbody>
         </table>
     </div>
 
     <script>
-        const API_URL = "https://6a351b7ff957779fdb301cb3.mockapi.io/logs"; // Ten sam URL co wyżej
+        const API_URL = "https://6a351b7ff957779fdb301cb3.mockapi.io/logs";
 
-        function zaladujLogiZChmury() {
+        function zaladujLogi() {
             let tbody = document.getElementById("tabela-logow");
             
-            // Wykonujemy żądanie GET do bazy w chmurze
             fetch(API_URL)
                 .then(res => res.json())
                 .then(logs => {
-                    tbody.innerHTML = ""; // Czyścimy tabelę
+                    tbody.innerHTML = "";
 
                     if (!logs || logs.length === 0) {
-                        tbody.innerHTML = "<tr><td colspan='4' style='text-align:center; color:#555;'>Brak zapisanych logów w bazie.</td></tr>";
+                        tbody.innerHTML = "<tr><td colspan='5' style='text-align:center; color:#555;'>Baza danych chmury jest pusta.</td></tr>";
                         return;
                     }
 
-                    // Najnowsze akcje wyświetlamy na samej górze (odwracamy kolejność)
-                    logs.reverse().forEach(log => {
+                    logs.sort((a, b) => parseInt(b.id) - parseInt(a.id));
+
+                    logs.forEach(log => {
                         let tr = document.createElement("tr");
                         
+                        let tdId = document.createElement("td");
+                        tdId.textContent = `#${log.id}`;
+                        tdId.style.color = "#555";
+                        tr.appendChild(tdId);
+
                         let tdCzas = document.createElement("td");
                         tdCzas.textContent = log.czas || "-";
                         tr.appendChild(tdCzas);
@@ -82,13 +147,44 @@
                     });
                 })
                 .catch(err => {
-                    console.error("Błąd pobierania danych:", err);
-                    tbody.innerHTML = "<tr><td colspan='4' style='text-align:center; color:red;'>Błąd podczas połączenia z bazą telemetryczną.</td></tr>";
+                    console.error("Błąd pobierania:", err);
+                    tbody.innerHTML = "<tr><td colspan='5' style='text-align:center; color:red;'>Błąd połączenia z serwerem MockAPI.</td></tr>";
                 });
         }
 
-        // Automatyczne pobranie logów przy otwarciu panelu
-        window.onload = zaladujLogiZChmury;
+
+        async function wyczyscBazeZChmury() {
+            if (!confirm("KRYTYCZNE OSTRZEŻENIE: Czy na pewno chcesz całkowicie wyczyścić bazę danych w chmurze przed testem?")) {
+                return;
+            }
+
+            let deleteBtn = document.getElementById("btn-delete");
+            deleteBtn.disabled = true;
+            deleteBtn.innerText = "[ TRWA USUWANIE REKORDÓW... ]";
+
+            try {
+                let res = await fetch(API_URL);
+                let logs = await res.json();
+
+                for (let log of logs) {
+                    await fetch(`${API_URL}/${log.id}`, { method: 'DELETE' });
+                }
+
+                localStorage.removeItem("licznik_bledow");
+                localStorage.removeItem("arg_telemetry");
+
+                alert("Baza danych została pomyślnie wyczyszczona.");
+            } catch (err) {
+                console.error("Błąd czyszczenia bazy:", err);
+                alert("Wystąpił błąd podczas usuwania danych.");
+            }
+
+            deleteBtn.disabled = false;
+            deleteBtn.innerHTML = "[ RESETUJ BAZĘ W CHMURZE ]";
+            zaladujLogi();
+        }
+
+        window.onload = zaladujLogi;
     </script>
 </body>
 </html>
