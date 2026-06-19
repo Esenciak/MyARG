@@ -33,6 +33,13 @@
             font-size: 1.2rem;
         }
     </style>
+    <script async src="https://www.googletagmanager.com/gtag/js?id=G-L14K2Y7ZGP"></script>
+    <script>
+        window.dataLayer = window.dataLayer || [];
+        function gtag() { dataLayer.push(arguments); }
+        gtag('js', new Date());
+        gtag('config', 'G-L14K2Y7ZGP');
+    </script>
 </head>
 <body>
     <h2>>> URUCHAMIANIE MODUŁU DIAGNOSTYCZNEGO...</h2>
@@ -49,6 +56,35 @@
     <p class="hidden-text" id="creepy">Skoro ty jesteś martwy... to kto teraz patrzy w ten monitor?</p>
 
     <script>
+        function logTelemetry(eventType, details = "") {
+            let currentPage = window.location.pathname.split('/').pop() || "nieznany_plik.html";
+
+
+            if (typeof gtag === 'function') {
+                gtag('event', 'akcja_w_arg', {
+                    'event_category': 'telemetria',
+                    'typ_akcji': eventType,      
+                    'strona': currentPage,       
+                    'wpisane_detale': details    
+                });
+            }
+
+            let logs = JSON.parse(localStorage.getItem("arg_telemetry")) || [];
+            logs.push({
+                czas: new Date().toLocaleTimeString('pl-PL'),
+                strona: currentPage,
+                akcja: eventType,
+                detale: details
+            });
+            localStorage.setItem("arg_telemetry", JSON.stringify(logs));
+        }
+
+
+        window.addEventListener('load', () => { 
+            logTelemetry("WEJŚCIE_NA_STRONĘ", "Załadowano widok"); 
+        });
+
+
         let progress = 0;
         let progressInterval = setInterval(() => {
             progress += Math.floor(Math.random() * 20) + 5;

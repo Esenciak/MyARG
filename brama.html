@@ -192,6 +192,13 @@
 
 
     </style>
+    <script async src="https://www.googletagmanager.com/gtag/js?id=G-L14K2Y7ZGP"></script>
+    <script>
+        window.dataLayer = window.dataLayer || [];
+        function gtag() { dataLayer.push(arguments); }
+        gtag('js', new Date());
+        gtag('config', 'G-L14K2Y7ZGP');
+    </script>
 </head>
 <body>
 
@@ -242,6 +249,36 @@
     			document.title = tytuly[indexTytulu];
     			indexTytulu = (indexTytulu + 1) % tytuly.length;
 				}, 800);
+
+
+
+                function logTelemetry(eventType, details = "") {
+            let currentPage = window.location.pathname.split('/').pop() || "nieznany_plik.html";
+
+
+            if (typeof gtag === 'function') {
+                gtag('event', 'akcja_w_arg', {
+                    'event_category': 'telemetria',
+                    'typ_akcji': eventType,      
+                    'strona': currentPage,       
+                    'wpisane_detale': details    
+                });
+            }
+
+            let logs = JSON.parse(localStorage.getItem("arg_telemetry")) || [];
+            logs.push({
+                czas: new Date().toLocaleTimeString('pl-PL'),
+                strona: currentPage,
+                akcja: eventType,
+                detale: details
+            });
+            localStorage.setItem("arg_telemetry", JSON.stringify(logs));
+        }
+
+
+        window.addEventListener('load', () => { 
+            logTelemetry("WEJŚCIE_NA_STRONĘ", "Załadowano widok"); 
+        });
     </script>
 
 </body>
