@@ -21,14 +21,40 @@
         }
         .logo { font-size: 24px; font-weight: bold; letter-spacing: 2px; }
         .logo span { color: #00aaff; }
+        
+        /* Menu w prawym górnym rogu */
+        .nav {
+            display: flex;
+            align-items: center;
+        }
         .nav a { 
             color: #ccc; 
             text-decoration: none; 
             margin-left: 20px; 
             font-size: 14px; 
             text-transform: uppercase; 
+            transition: color 0.2s;
         }
         .nav a:hover { color: white; }
+        
+        /* Nowy przycisk logowania na górze */
+        .btn-login {
+            background: transparent;
+            color: #00aaff;
+            border: 2px solid #00aaff;
+            padding: 8px 16px;
+            margin-left: 30px;
+            border-radius: 4px;
+            cursor: pointer;
+            font-weight: bold;
+            text-transform: uppercase;
+            font-size: 12px;
+            transition: all 0.3s ease;
+        }
+        .btn-login:hover {
+            background: #00aaff;
+            color: #002244;
+        }
         
         .hero { 
             text-align: center; 
@@ -57,20 +83,6 @@
         }
         .card h3 { color: #002244; margin-top: 0; border-bottom: 2px solid #eee; padding-bottom: 10px; }
         
-        .btn { 
-            display: inline-block; 
-            padding: 10px 20px; 
-            background: #0055a4; 
-            color: white; 
-            text-decoration: none; 
-            border-radius: 4px; 
-            margin-top: 15px; 
-            font-weight: bold; 
-            cursor: pointer;
-            border: none;
-        }
-        .btn:hover { background: #003366; }
-        
         footer { text-align: center; padding: 20px; color: #777; font-size: 12px; margin-top: 50px; }
 
         /* SEKRET ARG */
@@ -95,6 +107,8 @@
             <a href="#">O nas</a>
             <a href="#">Misje Ekstremalne</a>
             <a href="#">Dla Inwestorów</a>
+            <!-- Fałszywy przycisk na swoim nowym miejscu -->
+            <button class="btn-login" onclick="fakeLogin()">PORTAL PRACOWNICZY</button>
         </div>
     </header>
 
@@ -112,38 +126,35 @@
             <h3>Historia Badań</h3>
             <p>Wszystko zaczęło się w Szwajcarii. Dziś kontynuujemy te działania. Fundamentem naszego sukcesu był tajny Projekt <span class="secret-link" onclick="przejdzDoTerminala()">Weteran</span>, dzięki któremu zmapowaliśmy pierwszy Sektor B.</p>
         </div>
+        
+        <!-- Nowa trzecia kolumna fabularna -->
         <div class="card">
-            <h3>Portal Pracowniczy</h3>
-            <p>Autoryzowany dostęp tylko dla personelu badawczego i załóg skafandrów ciśnieniowych poziomu 4.</p>
-            <button class="btn" onclick="fakeLogin()">ZALOGUJ DO SYSTEMU</button>
+            <h3>Technologia Ochronna</h3>
+            <p>Nasi pracownicy wyposażeni są w zaawansowane skafandry diagnostyczne. Dzięki wbudowanej telemetrii na żywo, nieustannie monitorujemy ich funkcje życiowe i integralność powłoki – nawet po drugiej stronie anomalii.</p>
         </div>
     </div>
 
     <footer>
-        &copy; 2024 Ośrodek Badań Rzeczywistości. Wszystkie prawa zastrzeżone. Ściśle tajne.
+        &copy; 2026 Ośrodek Badań Rzeczywistości. Wszystkie prawa zastrzeżone. Ściśle tajne.
     </footer>
 
     <script>
-        // --- LOGIKA ARG ---
 
-        // 1. Zwykły, fałszywy przycisk logowania
         function fakeLogin() {
-            logTelemetry("PRÓBA_LOGOWANIA_OBR", "Kliknięto fałszywy przycisk portalu");
+            logTelemetry("PRÓBA_LOGOWANIA_OBR", "Kliknięto Portal Pracowniczy w menu");
             alert("BŁĄD AUTORYZACJI: Twój adres IP nie znajduje się na białej liście O.B.R. \nDostęp do panelu został zablokowany.");
         }
 
-        // 2. Prawdziwe, ukryte wejście do Twojej gry
         function przejdzDoTerminala() {
             logTelemetry("ZNALAZŁ_WEJŚCIE", "Kliknął słowo 'Weteran'");
             document.body.style.backgroundColor = "black";
             document.body.innerHTML = "<h1 style='color:red; text-align:center; margin-top:20vh; font-family:monospace;'>NARUSZENIE PROTOKOŁU... PRZEKIEROWANIE...</h1>";
             
             setTimeout(() => {
-                window.location.href = "terminal.html"; // Skok do starego index.html
+                window.location.href = "terminal.html"; 
             }, 1500);
         }
 
-        // 3. Telemetria (wiedza to potęga!)
         function logTelemetry(eventType, details = "") {
             let playerId = localStorage.getItem("arg_player_id");
             if (!playerId) {
@@ -168,7 +179,6 @@
             }).catch(err => console.error("Błąd zapisu w chmurze:", err));
         }
 
-        // Logowanie samego faktu wejścia na tę fałszywą stronę
         window.addEventListener('load', () => { 
             logTelemetry("WEJŚCIE_NA_STRONĘ", "Odwiedzono fałszywy front OBR"); 
         });
